@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🔑 Login — Dzaki's Space</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Nunito:wght@400;600;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body class="login-page">
+
+  <!-- Background blur circles buat atmosfer -->
+  <div class="login-bg">
+    <div class="login-bg-circle lbc1"></div>
+    <div class="login-bg-circle lbc2"></div>
+  </div>
+
+  <!-- Kotak login utama -->
+  <div class="login-box">
+
+    <!-- Badge atas -->
+    <div class="login-badge">🔑 AKSES MASUK</div>
+
+    <!-- Judul -->
+    <h1 class="login-title">Selamat<br><span class="accent">Datang</span> 👋</h1>
+    <p class="login-sub">Masuk untuk mengakses halaman Dzaki's Space
+      kalo mau tau pasword nya harus salah 3 kali dulu ya   😈
+    </p>
+
+    <!-- Pesan error (tersembunyi default) -->
+    <div class="login-error" id="loginError">
+      ❌ Nama atau password salah. Coba lagi ya!
+    </div>
+
+    <!-- Pesan sukses (tersembunyi default) -->
+    <div class="login-success" id="loginSuccess">
+      ✅ Login berhasil! Mengalihkan...
+    </div>
+
+    <!-- Field NAMA -->
+    <div class="login-field">
+      <label for="inputNama">NAMA</label>
+      <input
+        type="text"
+        id="inputNama"
+        placeholder="Masukkan namamu..."
+        autocomplete="off"
+      />
+    </div>
+
+    <!-- Field PASSWORD -->
+    <div class="login-field">
+      <label for="inputPassword">PASSWORD</label>
+      <div class="field-wrap">
+        <input
+          type="password"
+          id="inputPassword"
+          placeholder="Masukkan password..."
+          autocomplete="off"
+        />
+        <!-- Tombol show/hide password -->
+        <button class="toggle-pw" id="togglePw" title="Tampilkan/Sembunyikan">👁</button>
+      </div>
+    </div>
+
+    <!-- Tombol masuk -->
+    <button class="btn-login" id="btnLogin">Masuk Sekarang 🚀</button>
+
+    <!-- Tidak ada link keluar — kalau ga tau password, ya nasib 😈 -->
+
+  </div>
+
+  <script>
+    // ============================
+    //  LOGIN LOGIC
+    // ============================
+
+    const VALID_USERS = [
+      { nama: 'dzaki',  password: 'atomic'  },
+      { nama: 'admin',  password: 'birrul'  },
+      { nama: 'tamu',   password: 'baca123' }
+    ];
+
+    const btnLogin   = document.getElementById('btnLogin');
+    const inputNama  = document.getElementById('inputNama');
+    const inputPw    = document.getElementById('inputPassword');
+    const errorBox   = document.getElementById('loginError');
+    const successBox = document.getElementById('loginSuccess');
+    const togglePw   = document.getElementById('togglePw');
+
+    // Hitung berapa kali salah — disimpen di sessionStorage
+    // biar kalau refresh tetap keingat
+    let failCount = parseInt(sessionStorage.getItem('failCount') || '0');
+
+    // Batas salah sebelum kena troll
+    const MAX_FAILS = 3;
+
+    function doLogin() {
+      const nama = inputNama.value.trim().toLowerCase();
+      const pw   = inputPw.value.trim();
+
+      errorBox.classList.remove('show');
+      successBox.classList.remove('show');
+
+      if (!nama || !pw) {
+        errorBox.textContent = '⚠️ Nama dan password tidak boleh kosong!';
+        errorBox.classList.add('show');
+        shake(inputNama.value ? inputPw : inputNama);
+        return;
+      }
+
+      const match = VALID_USERS.find(u => u.nama === nama && u.password === pw);
+
+      if (match) {
+        successBox.classList.add('show');
+        btnLogin.textContent = '⏳ Mengalihkan...';
+        btnLogin.disabled = true;
+        sessionStorage.setItem('failCount', '0'); // reset counter kalau berhasil
+        sessionStorage.setItem('loggedIn', 'true');
+        sessionStorage.setItem('namaUser', match.nama);
+        setTimeout(() => { window.location.href = 'index.html'; }, 1500);
+
+      } else {
+        // Tambah counter gagal
+        failCount++;
+        sessionStorage.setItem('failCount', failCount);
+
+        const sisaCoba = MAX_FAILS - failCount;
+
+        if (failCount >= MAX_FAILS) {
+          // Kena troll! Kirim ke halaman troll dengan info jumlah percobaan
+          sessionStorage.setItem('failCount', '0');
+          errorBox.textContent = '😈 Terlalu banyak percobaan... menunggu nasib!';
+          errorBox.classList.add('show');
+          btnLogin.textContent = '💀 Game Over...';
+          btnLogin.disabled = true;
+          setTimeout(() => {
+            window.location.href = `troll.html?coba=${MAX_FAILS}`;
+          }, 1200);
+        } else {
+          // Masih ada sisa kesempatan
+          errorBox.textContent = `❌ Salah! Sisa kesempatan: ${sisaCoba} lagi...`;
+          errorBox.classList.add('show');
+          shake(inputPw);
+          inputPw.value = '';
+          inputPw.focus();
+        }
+      }
+    }
+
+    function shake(el) {
+      el.style.borderColor = '#ff7070';
+      el.style.boxShadow = '0 0 0 3px rgba(255,80,80,0.2)';
+      setTimeout(() => {
+        el.style.borderColor = '';
+        el.style.boxShadow = '';
+      }, 600);
+    }
+
+    btnLogin.addEventListener('click', doLogin);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') doLogin();
+    });
+    togglePw.addEventListener('click', () => {
+      const isHidden = inputPw.type === 'password';
+      inputPw.type = isHidden ? 'text' : 'password';
+      togglePw.textContent = isHidden ? '🙈' : '👁';
+    });
+  </script>
+
+</body>
+</html>

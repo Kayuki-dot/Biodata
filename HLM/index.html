@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dzaki Putra Maulana</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Nunito:wght@400;600;800;900&display=swap" rel="stylesheet">
+  <script>
+  const isLoggedIn = sessionStorage.getItem('loggedIn');
+
+  if (isLoggedIn !== 'true') {
+    // Kalau belum login → balik ke login
+    window.location.href = 'login.html';
+  }
+</script>
+<script src="script.js"></script>
+  <link rel ="stylesheet" href="script.js"/>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div><img src="ipa.jpg" class="nav-foto"></div>
+    <div class="nav-logo"> DZAKI PUTRA MAULANA</div>
+    <ul class="nav-links">
+      <li><a href="#home" class="nav-btn">🏠 Home</a></li>
+      <li><a href="#about" class="nav-btn">👤 About</a></li>
+      <li><a href="#hobi" class="nav-btn">🎯 Hobi</a></li>
+      <li><a href="perpus.html" class="nav-btn nav-perpus">📚 Perpustakaan</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <p class="hero-tag">✨ Halo, perkenalkan aku!</p>
+      <h1 class="hero-title">Dzaki Putra<br><span class="accent">Maulana</span></h1>
+      <p class="hero-sub">Siswa SMP Birrul Sragen · Kelas IT · Robotik 🤖</p>
+      <div class="hero-btns">
+        <a href="#about" class="btn-main">Kenalan Yuk →</a>
+        <a href="perpus.html" class="btn-outline">📖 Buku Favoritku</a>
+      </div>
+    </div>
+    <div class="hero-deco">
+      <div class="deco-circle c1"></div>
+      <div class="deco-circle c2"></div>
+      <div class="deco-blob">👨‍💻</div>
+    </div>
+
+    <!-- TOMBOL RAHASIA -->
+    <button class="secret-btn" id="secretBtn" title="...">✦</button>
+  </section>
+
+  <!-- ABOUT SECTION -->
+  <section class="about" id="about">
+    <h2 class="section-title">Tentang Aku 👋</h2>
+    <div class="cards-grid">
+      <div class="card">
+        <span class="card-icon">🏫</span>
+        <h3>Sekolah</h3>
+        <p>SMA Birrul Sragen<br>Kelas IT</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">🤖</span>
+        <h3>Ekstrakurikuler</h3>
+        <p>Tim Robotik<br>SMP Birrul</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">🎨</span>
+        <h3>Suka Pakai</h3>
+        <p>Canva buat desain<br>yang keren-keren!</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">📍</span>
+        <h3>Domisili</h3>
+        <p>Sragen,<br>Jawa Tengah</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOBI SECTION -->
+  <section class="hobi" id="hobi">
+    <h2 class="section-title">Yang Aku Suka 🎯</h2>
+    <div class="hobi-list">
+      <div class="hobi-item">📚 Baca Buku</div>
+      <div class="hobi-item">🤖 Robotik</div>
+      <div class="hobi-item">🎨 Desain di Canva</div>
+      <div class="hobi-item">💻 IT & Coding</div>
+      <div class="hobi-item">🔍 Eksplorasi Ide</div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>Made with ❤️ by <strong>Dzaki Putra Maulana</strong> · SMA Birrul Sragen</p>
+  </footer>
+
+  <!-- MODAL RAHASIA -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-box" id="modalBox">
+      <div class="modal-close" id="modalClose">✕</div>
+      <p class="modal-label">🔐 Kamu nemu tombol rahasia!</p>
+      <h2 class="modal-title">Selamat datang<br>di zona tersembunyi ✨</h2>
+      <p class="modal-desc">Halaman ini hanya untuk yang penasaran dan teliti banget. Kamu layak masuk!</p>
+      <a href="rahasia.html" class="modal-enter">Masuk Sekarang 🚀</a>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
